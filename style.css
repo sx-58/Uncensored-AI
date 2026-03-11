@@ -1,0 +1,236 @@
+:root {
+    --bg-app: #121212; /* Darker background, like the print */
+    --bg-input: #232323; /* Dark gray for elements */
+    --bg-bubble-user: #232323; /* Same as input for user bubbles */
+    --bg-sidebar: #191919;
+    
+    --text-main: #FFFFFF;
+    --text-muted: #8E8E8F;
+    --border-color: #2F2F2F;
+    
+    --accent: #E0E0E0; /* Subtle accent */
+    --user-avatar: #FF9F43; /* Orange for user avatar */
+    
+    /* Tipografia de UI (parecida com SF Pro/Helvetica Neue) */
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+
+body {
+    background-color: var(--bg-app);
+    color: var(--text-main);
+    font-family: var(--font-family);
+    height: 100vh;
+    overflow: hidden; /* Evita scroll no body inteiro, foca no chat */
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Top Bar (Header) */
+.top-bar {
+    padding: 15px 20px;
+    background-color: var(--bg-app);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.top-left { display: flex; align-items: center; gap: 15px; }
+.menu-icon, .settings-icon { font-size: 20px; color: var(--text-muted); cursor: pointer; transition: 0.2s; }
+.menu-icon:active, .settings-icon:active { color: #fff; }
+
+.chat-title { font-size: 18px; font-weight: 700; }
+
+/* Sidebar (Menu de Configurações Móvel) */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%; /* Oculto à esquerda */
+    width: 80%; /* Ocupa 80% da tela móvel */
+    max-width: 320px;
+    height: 100%;
+    background-color: var(--bg-sidebar);
+    border-right: 1px solid var(--border-color);
+    z-index: 1000;
+    transition: left 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.sidebar.active { left: 0; } /* Mostra a sidebar */
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.sidebar-header h3 { font-size: 18px; font-weight: 700; }
+.close-icon { font-size: 18px; color: var(--text-muted); cursor: pointer; }
+
+.config-group { margin-bottom: 25px; }
+.config-group label { display: block; color: var(--text-main); font-size: 14px; margin-bottom: 8px; }
+.config-group label i { color: var(--user-avatar); margin-right: 5px; }
+.config-group input, .config-group textarea {
+    width: 100%;
+    background-color: #262626;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px;
+    color: #fff;
+    font-size: 14px;
+}
+.help-text { font-size: 12px; color: #555; margin-top: 5px; }
+.sidebar-footer { margin-top: auto; font-size: 12px; color: #555; }
+
+/* Área Principal do Chat */
+.chat-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    position: relative;
+}
+
+/* Scrollbar estilizada (para desktop) */
+.chat-area::-webkit-scrollbar { width: 5px; }
+.chat-area::-webkit-scrollbar-thumb { background-color: #333; border-radius: 3px; }
+
+/* Mensagem de Boas-vindas (idêntica ao anexo) */
+.welcome-section {
+    position: absolute;
+    top: 25%; /* Centralizado na tela */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    text-align: center;
+}
+
+.welcome-section h1 { font-size: 28px; font-weight: 800; margin-bottom: 10px; }
+.welcome-section p { font-size: 16px; color: var(--text-muted); margin-bottom: 40px; }
+
+/* Grid de Sugestões Rápidas (idêntico ao anexo) */
+.quick-suggest-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.suggest-btn {
+    background-color: var(--bg-input);
+    color: #fff;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.suggest-btn i { font-size: 18px; color: var(--text-muted); }
+.suggest-btn:active { background-color: #2F2F2F; border-color: #444; }
+
+/* Bolhas de Mensagem do Chat */
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 20px;
+}
+
+.message { display: flex; gap: 15px; max-width: 90%; position: relative; }
+.avatar { width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.message-content { padding: 12px 16px; border-radius: 16px; font-size: 16px; line-height: 1.5; }
+
+/* IA Message (sem bolha, igual ao print do chatGPT) */
+.ai-message { align-self: flex-start; }
+.ai-message .avatar { background: #333; color: var(--user-avatar); font-size: 14px; border: 1px solid var(--border-color); }
+.ai-message .message-content { background: transparent; padding-left: 0; color: #fff; }
+
+/* User Message */
+.user-message { align-self: flex-end; flex-direction: row-reverse; }
+.user-message .avatar { display: none; }
+.user-message .message-content { background-color: var(--bg-bubble-user); color: #fff; border-bottom-right-radius: 5px; }
+
+/* Mensagem de Sistema/Pensando */
+.system-message { align-self: center; background: #1a1a1a; color: #777; font-size: 12px; padding: 5px 15px; border-radius: 15px; }
+
+/* Bottom Bar (Área de Input Móvel) */
+.bottom-bar {
+    padding: 10px 15px 25px 15px; /* Mais padding embaixo para iPhones */
+    background-color: var(--bg-app);
+}
+
+.input-wrapper {
+    background-color: var(--bg-input);
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    border: 1px solid var(--border-color);
+}
+
+#user-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    resize: none;
+    max-height: 120px;
+    line-height: 1.4;
+    padding: 2px 0;
+}
+
+#send-btn {
+    background: transparent;
+    color: var(--text-muted);
+    border: none;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    transition: 0.2s;
+    display: flex; align-items: center; justify-content: center;
+}
+
+#send-btn:active { transform: scale(1.1); color: #fff; }
+#send-btn:disabled { color: #333; cursor: not-allowed; }
+
+/* Overlay de fundo quando a sidebar abre */
+.overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 999;
+    display: none;
+}
+.overlay.active { display: block; }
+
+/* Responsividade Básica (Opcional, já é focado em mobile) */
+@media (max-width: 768px) {
+    .welcome-section h1 { font-size: 24px; }
+    .welcome-section p { font-size: 14px; }
+    .quick-suggest-grid { gap: 10px; }
+    .suggest-btn { padding: 12px; font-size: 13px; }
+}
+

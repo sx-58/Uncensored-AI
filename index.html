@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chat Mobile UI | Llama 3.1</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <header class="top-bar">
+            <div class="top-left">
+                <i class="fas fa-bars menu-icon" onclick="toggleSidebar()"></i>
+                <span class="chat-title">Chat 3.1</span>
+            </div>
+            <div class="top-right">
+                <i class="fas fa-user-circle settings-icon" onclick="toggleSidebar()"></i>
+            </div>
+        </header>
+
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h3>Configurações</h3>
+                <i class="fas fa-times close-icon" onclick="toggleSidebar()"></i>
+            </div>
+            
+            <div class="config-group">
+                <label for="api-key"><i class="fas fa-key"></i> OpenRouter API Key</label>
+                <input type="password" id="api-key" placeholder="sk-or-v1-...">
+                <p class="help-text">Sua chave é salva localmente.</p>
+            </div>
+
+            <div class="config-group">
+                <label for="system-prompt"><i class="fas fa-user-cog"></i> System Prompt</label>
+                <textarea id="system-prompt" rows="5">You are a helpful and direct AI assistant.</textarea>
+            </div>
+            
+            <div class="sidebar-footer">
+                <span class="model-info">Dolphin-3.0-Llama3.1-8b</span>
+            </div>
+        </aside>
+
+        <main class="chat-area">
+            
+            <div id="welcome-message" class="welcome-section">
+                <h1>Como posso ajudar?</h1>
+                <p>Experimente pedir algo...</p>
+                
+                <div class="quick-suggest-grid">
+                    <button class="suggest-btn" data-prompt="Me diga o resumo do livro 'O Pequeno Príncipe'.">
+                        <i class="fas fa-book-open"></i> Resumir texto
+                    </button>
+                    <button class="suggest-btn" data-prompt="Me dê conselhos para melhorar minha produtividade diária.">
+                        <i class="fas fa-user-graduate"></i> Aconselhar
+                    </button>
+                    <button class="suggest-btn" data-prompt="Quais são os principais conceitos da mecânica quântica?">
+                        <i class="fas fa-brain"></i> Analisar imagens
+                    </button>
+                </div>
+            </div>
+
+            <div id="chat-messages" class="chat-messages" style="display: none;">
+                </div>
+        </main>
+
+        <footer class="bottom-bar">
+            <div class="input-wrapper">
+                <textarea id="user-input" placeholder="Mensagem..." rows="1"></textarea>
+                <button id="send-btn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
