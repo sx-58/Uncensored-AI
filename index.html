@@ -3,80 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Chat Mobile UI | Llama 3.1</title>
+    <title>Nexus AI | Uncensored</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
+<body class="flex flex-col">
 
-    <div class="app-container">
-        
-        <header class="top-bar">
-            <div class="top-left">
-                <i class="fas fa-bars menu-icon" onclick="toggleSidebar()"></i>
-                <span class="chat-title">Chat 3.1</span>
+    <header class="p-4 glass flex items-center justify-between sticky top-0 z-10">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                <i class="fas fa-bolt text-white text-lg"></i>
             </div>
-            <div class="top-right">
-                <i class="fas fa-user-circle settings-icon" onclick="toggleSidebar()"></i>
+            <div>
+                <h1 class="font-bold text-lg leading-none">Nexus <span class="text-blue-400">Dolphin</span></h1>
+                <input type="password" id="apiKey" placeholder="Cole sua API Key aqui..." class="bg-transparent text-[10px] text-slate-500 border-none p-0 focus:ring-0 w-32 outline-none">
             </div>
-        </header>
+        </div>
+        <button id="clearBtn" class="p-2 text-slate-400 hover:text-red-400 transition-colors">
+            <i class="fas fa-trash-alt"></i>
+        </button>
+    </header>
 
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <h3>Configurações</h3>
-                <i class="fas fa-times close-icon" onclick="toggleSidebar()"></i>
+    <main id="chatContainer" class="chat-container flex-1 overflow-y-auto p-4 space-y-6">
+        <div id="welcomeScreen" class="flex flex-col items-center justify-center py-10 text-center opacity-60">
+            <div class="w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center mb-4 border border-slate-700">
+                <i class="fas fa-unlocked text-2xl text-blue-400"></i>
             </div>
-            
-            <div class="config-group">
-                <label for="api-key"><i class="fas fa-key"></i> OpenRouter API Key</label>
-                <input type="password" id="api-key" placeholder="sk-or-v1-...">
-                <p class="help-text">Sua chave é salva localmente.</p>
+            <h2 class="text-xl font-bold mb-2">Modo Uncensored</h2>
+            <p class="text-sm px-10">Dolphin 3.0 Llama 3.1 ativo. Sem filtros morais ou restrições de sistema.</p>
+            <div class="grid grid-cols-1 gap-2 mt-8 w-full max-w-xs">
+                <button onclick="prefill('Me dê um conselho sem filtros sobre política')" class="p-3 text-xs bg-slate-800/50 border border-slate-700 rounded-xl hover:bg-slate-800 transition-all">Conselho sem filtro</button>
+                <button onclick="prefill('Escreva uma história dark e pesada')" class="p-3 text-xs bg-slate-800/50 border border-slate-700 rounded-xl hover:bg-slate-800 transition-all">Ficção Dark</button>
             </div>
+        </div>
 
-            <div class="config-group">
-                <label for="system-prompt"><i class="fas fa-user-cog"></i> System Prompt</label>
-                <textarea id="system-prompt" rows="5">You are a helpful and direct AI assistant.</textarea>
-            </div>
-            
-            <div class="sidebar-footer">
-                <span class="model-info">Dolphin-3.0-Llama3.1-8b</span>
-            </div>
-        </aside>
+        <div id="messagesList" class="space-y-6 pb-10"></div>
+    </main>
 
-        <main class="chat-area">
-            
-            <div id="welcome-message" class="welcome-section">
-                <h1>Como posso ajudar?</h1>
-                <p>Experimente pedir algo...</p>
-                
-                <div class="quick-suggest-grid">
-                    <button class="suggest-btn" data-prompt="Me diga o resumo do livro 'O Pequeno Príncipe'.">
-                        <i class="fas fa-book-open"></i> Resumir texto
-                    </button>
-                    <button class="suggest-btn" data-prompt="Me dê conselhos para melhorar minha produtividade diária.">
-                        <i class="fas fa-user-graduate"></i> Aconselhar
-                    </button>
-                    <button class="suggest-btn" data-prompt="Quais são os principais conceitos da mecânica quântica?">
-                        <i class="fas fa-brain"></i> Analisar imagens
-                    </button>
-                </div>
-            </div>
-
-            <div id="chat-messages" class="chat-messages" style="display: none;">
-                </div>
-        </main>
-
-        <footer class="bottom-bar">
-            <div class="input-wrapper">
-                <textarea id="user-input" placeholder="Mensagem..." rows="1"></textarea>
-                <button id="send-btn">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-        </footer>
-    </div>
+    <footer class="p-4 glass">
+        <div class="max-w-4xl mx-auto flex items-end gap-2 bg-slate-800/80 backdrop-blur p-2 rounded-2xl border border-slate-700 shadow-2xl">
+            <textarea 
+                id="userInput"
+                rows="1"
+                placeholder="Pergunte qualquer coisa..."
+                class="flex-1 bg-transparent border-none focus:ring-0 text-slate-200 py-3 px-2 resize-none max-h-40 text-sm"
+            ></textarea>
+            <button id="sendBtn" class="w-11 h-11 bg-blue-600 hover:bg-blue-500 rounded-xl flex items-center justify-center text-white transition-all transform active:scale-95 shadow-lg shadow-blue-900/40">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
 </html>
-
