@@ -1,4 +1,4 @@
-const VENICE_API_KEY = "SUA_CHAVE_AQUI"; // <--- COLOQUE SUA CHAVE AQUI
+const VENICE_API_KEY = "VENICE_INFERENCE_KEY_frplI7jyVLXR3pr_uneLG7jYO_wbk4D7YMPHSOt49Z"; // <--- COLOQUE SUA CHAVE AQUI
 const MODEL = "llama-3.1-70b";
 
 let messages = [];
